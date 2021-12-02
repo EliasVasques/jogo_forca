@@ -52,4 +52,20 @@ class Forca:
             tela.blit(perna_braco_esquerdo, (x+78, y+38))
         if qtd_erros >= 6:
             tela.blit(perna_braco_esquerdo, (x+78, y+56))
+            self.fonte = pygame.font.SysFont('arial', 80)
+            letra = self.fonte.render("Game over", True, (0,0,0))
+            tela.blit(letra, (120, 200))
+
+    def vivo (self):
+        qtd_erros = len(self.errado)
+        if qtd_erros == 6:
+            return False
+        return True
+    
+    def tentativa (self, letra):
+        if letra in self.palavra:
+            self.certo.append(letra)
+        else:
+            self.errado.append(letra)
+        self.todas_tentativas.append(letra)
     
