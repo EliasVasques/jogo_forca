@@ -16,13 +16,13 @@ class Forca:
         x = 200
         y = 250 
         largura_traco = 25
-        altura_traco = 1
+        altura_traco = 2
         tamanho_fonte_letras = 20
         for letra in self.palavra:
             if letra not in self.certo:
                 pygame.draw.rect(tela, PRETO, (x, y, largura_traco, altura_traco))
             else:
-                msg(tela, letra, x + 10, y - 20, tamanho_fonte_letras)
+                msg(tela, letra, x + 10, y - 20, tamanho_fonte_letras, PRETO)
             x += 30
 
     def exibir_forca(self, tela):
