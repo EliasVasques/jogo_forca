@@ -3,14 +3,17 @@ from pygame.locals import *
 from sys import exit
 
 from forca import Forca
+from funções import msg
 
 BRANCO = (255,255,255)
+PRETO = (0,0,0)
 LARGURA = 640
 ALTURA = 480
 
 pygame.init()
 
 palavras_descricoes = [['alienigina', 'outro planeta'], ['mouse', 'pc'], ['caderno', 'escola'], ['chinelo', 'calçado'], ['arroz', 'comida']] 
+indice_ult_palavra = len(palavras_descricoes)
 cont = 1
 
 forca = Forca(palavras_descricoes[0][0], palavras_descricoes[0][1]) # primeiro
@@ -26,20 +29,28 @@ while True:
     tela.fill(BRANCO)
 
     if not forca.vivo() or forca.venceu():
-        if cont > 4:  # ult indice da lista de palavras_descricoes
-            forca.msg_fim_jogo(tela)
+        msg(tela, forca.palavra, 200, 30, 50) # palavra
+        if cont > indice_ult_palavra:
+            msg(tela, "Fim Jogo", 100, 300, 80)
+            espaco = "sair"
         elif not forca.vivo():
-            forca.msg_game_over(tela)
+            msg(tela, "Você perdeu", 180, 300, 50)
+            espaco = "continuar"
         elif forca.venceu():
-            forca.msg_venceu(tela)
-    else:
-        forca.exibir_pontos(tela, pontos_jogador, pontos_pc)
-        forca.exibir_descricao(tela)
-        forca.exibir_forca(tela)
-        forca.exibir_palavra(tela)
+            msg(tela, "Você venceu", 180, 300, 80)
+            espaco = "continuar"
+        msg(tela, f"espaço para {espaco}", 225, 380, 20)
+    
+    # pontos
+    msg(tela, f"você: {pontos_jogador}", 20, 50, 20)
+    msg(tela, f"pc: {pontos_pc}", 580, 50, 20)
 
+    # descrição
+    msg(tela, forca.descricao, 225, 80, 35)
 
-        
+    forca.exibir_forca(tela)
+    forca.exibir_palavra(tela)
+
     pygame.display.flip()
 
     for event in pygame.event.get():
@@ -55,7 +66,7 @@ while True:
                     elif forca.venceu():
                         pontos_jogador += 1
 
-                    if cont <= 4:
+                    if cont <= indice_ult_palavra: 
                         forca = Forca(palavras_descricoes[cont][0], palavras_descricoes[cont][1])
                         cont += 1
                     else:
@@ -65,5 +76,4 @@ while True:
                 for letra in letras.keys(): # letras alfabeto
                     if letras[letra] == event.key:  # keydown das letras == pressionou
                         forca.tentativa(letra)
-
 

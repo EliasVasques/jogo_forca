@@ -1,4 +1,5 @@
 import pygame
+from funções import msg
 
 PRETO = (0,0,0)
 class Forca:
@@ -9,11 +10,7 @@ class Forca:
         self.todas_tentativas = list()
         self.certo = list()
         self.errado = list()
-
-    def exibir_texto (self, tela, texto, x, y, tamanho_fonte):
-        self.fonte = pygame.font.SysFont('arial', tamanho_fonte)
-        letra = self.fonte.render(texto, True, (0,0,0))
-        tela.blit(letra, (x, y))
+        self.max_erros = 6
 
     def exibir_palavra(self, tela):
         x = 200
@@ -25,26 +22,8 @@ class Forca:
             if letra not in self.certo:
                 pygame.draw.rect(tela, PRETO, (x, y, largura_traco, altura_traco))
             else:
-                self.exibir_texto(tela, letra, x + 10, y - 20, tamanho_fonte_letras)
+                msg(tela, letra, x + 10, y - 20, tamanho_fonte_letras)
             x += 30
-
-    def exibir_descricao(self, tela):
-        x = 225
-        y = 80
-        tamanho_fonte_descricao = 35
-        self.exibir_texto(tela, self.descricao, x, y, tamanho_fonte_descricao)
-
-    def msg_fim_jogo(self, tela):
-        x_game_over = 115
-        y_game_over = 100
-        tamanho_fonte_game_over = 80
-        self.exibir_texto(tela, "Fim de Jogo", x_game_over, y_game_over, tamanho_fonte_game_over)
-
-        x_sair = 180
-        y_sair = 200
-        tamanho_fonte_sair = 30
-        self.exibir_texto(tela, "espaço para sair", x_sair, y_sair, tamanho_fonte_sair)
-
 
     def exibir_forca(self, tela):
         x_forca = 80
@@ -87,21 +66,10 @@ class Forca:
 
     def vivo (self):
         qtd_erros = len(self.errado)
-        if qtd_erros == 6:
+        if qtd_erros == self.max_erros:
             return False
         return True
 
-    def msg_game_over (self, tela) :
-        x_game_over = 115
-        y_game_over = 100
-        tamanho_fonte_game_over = 80
-        self.exibir_texto(tela, "Game Over", x_game_over, y_game_over, tamanho_fonte_game_over)
-
-        x_ir_novamente = 150
-        y_ir_novamente = 200
-        tamanho_fonte_ir_novamente = 30
-        self.exibir_texto(tela, "espaço para ir novamente", x_ir_novamente, y_ir_novamente, tamanho_fonte_ir_novamente)
-    
     def tentativa (self, letra):
         if letra in self.palavra:
             self.certo.append(letra)
@@ -115,23 +83,4 @@ class Forca:
                 return False
         return True
 
-    def msg_venceu(self, tela):
-        x_venceu = 100
-        y_venceu = 100
-        tamanho_fonte_venceu = 80
-        self.exibir_texto(tela, "Você venceu", x_venceu, y_venceu, tamanho_fonte_venceu)
-
-        x_ir_novamente = 150
-        y_ir_novamente = 200
-        tamanho_fonte_ir_novamente = 30
-        self.exibir_texto(tela, "espaço para ir novamente", x_ir_novamente, y_ir_novamente, tamanho_fonte_ir_novamente)
     
-    def exibir_pontos(self, tela, jogador, pc):
-        tamanho_fonte = 20
-        y = 50
-
-        x_jogador = 20
-        self.exibir_texto(tela, "você: " + str(jogador), x_jogador, y, tamanho_fonte)
-
-        x_pc = 580
-        self.exibir_texto(tela, "pc: " + str(pc), x_pc, y, tamanho_fonte)
