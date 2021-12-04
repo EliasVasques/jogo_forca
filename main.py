@@ -44,7 +44,7 @@ while True:
 
     if not forca.vivo() or forca.venceu():
         if cont >= indice_ult_palavra:
-            msg(tela, "Fim Jogo", 150, 280, 80, MARROM)
+            msg(tela, "Fim Jogo", 150, 290, 80, MARROM)
             espaco = "sair"
         elif not forca.vivo():
             msg(tela, "Você perdeu", 180, 300, 50, VERMELHO)
@@ -65,6 +65,13 @@ while True:
 
     # descrição
     msg(tela, forca.descricao, 225, 80, 35, PRETO)
+
+    tentativas_sem_repeticoes = ''
+    for letra in forca.todas_tentativas: # sem repetição
+        if letra not in tentativas_sem_repeticoes:
+            tentativas_sem_repeticoes += letra + ' '
+    msg(tela, 'tentativas: ' + tentativas_sem_repeticoes, 100, 280, 20, PRETO)
+
 
     forca.exibir_forca(tela)
     forca.exibir_palavra(tela)
